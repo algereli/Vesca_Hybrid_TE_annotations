@@ -1,0 +1,26 @@
+#!/bin/bash -login
+
+##SBATCH -J EDTA_Frag_562
+##SBATCH --time=3:59:59
+##SBATCH --ntasks=1
+##SBATCH --cpus-per-task=10
+##SBATCH --mem-per-cpu=30G
+##SBATCH -o EDTA_filter_Frag.out
+
+#-------------------------------------------------
+
+module load GCC/10.2.0  OpenMPI/4.0.5
+module load BLAST+/2.11.0
+
+nohup perl /mnt/home/algereli/EDTA/util/cleanup_nested.pl \
+	-blastplus /opt/software/BLAST+/2.11.0-gompi-2020b/bin/ \
+    -in FV.EDTA.TElib.novel.fa.raw \
+    -cov 0.95 \
+    -minlen 80 \
+    -miniden 80 \
+    -t 36 
+    
+
+perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TElib.novel.fa.raw.cln > FV.EDTA.TElib.novel.fa
+
+cat /mnt/home/algereli/vesca_TEs_EDTA/H4.TE.lib.fasta FV.EDTA.TElib.novel.fa > F_vesca.TElib2.fa
