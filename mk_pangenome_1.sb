@@ -43,34 +43,3 @@ done > FV.EDTA.TElib.novel.fa.raw
 perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TEib.novel.fa.raw > FV.EDTA.TElib.novel.fa.raw2
 mv FV.EDTA.TElib.novel.fa.raw2 FV.EDTA.TElib.novel.fa.raw
 
-
-module load GCC/10.2.0  OpenMPI/4.0.5
-module load BLAST+/2.11.0
-
-nohup perl /mnt/home/algereli/EDTA/util/cleanup_nested.pl \
-	-blastplus /opt/software/BLAST+/2.11.0-gompi-2020b/bin/ \
-    -in FV.EDTA.TElib.novel.fa.raw \
-    -cov 0.95 \
-    -minlen 80 \
-    -miniden 80 \
-    -t 36 
-    
-
-perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TElib.novel.fa.raw.cln > FV.EDTA.TElib.novel.fa
-
-cat /mnt/home/algereli/vesca_TEs_EDTA/H4.TE.lib.fasta FV.EDTA.TElib.novel.fa > F_vesca.TElib2.fa
-
-lib=F_vesca.TElib2.fa
-RepeatMasker -pa 36 -q -div 40 -lib F_vesca.TElib2.fa -cutoff 225 -gff $genome
-for i in *fasta.out; do
- perl -nle 's/knob180_knob180/knob180/g;\
-            s/CentC_CentC/CentC/g; \
-            s/Unspecified/LTR\/CRM/g; \
-            s/4\-12\-1_CL569186.1/CL569186.1/; \
-            s/TR\-1_TR\-1/TR\-1/g;  \
-            next if /TE_00018291_LTR/; \
-            next if /TE_00013511/; \
-            next if /TE_00016670_LTR/; \
-            print $_' $i > $i.mod &
-done
-
