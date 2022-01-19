@@ -1,0 +1,24 @@
+#!/bin/bash -login
+
+##SBATCH -J EDTA_Frag_562
+##SBATCH --time=3:59:59
+##SBATCH --ntasks=1
+##SBATCH --cpus-per-task=10
+##SBATCH --mem-per-cpu=30G
+##SBATCH -o EDTA_filter_Frag.out
+
+#-------------------------------------------------
+
+lib=F_vesca.TElib2.fa
+RepeatMasker -pa 36 -q -div 40 -lib F_vesca.TElib2.fa -cutoff 225 -gff $genome
+for i in *fasta.out; do
+ perl -nle 's/knob180_knob180/knob180/g;\
+            s/CentC_CentC/CentC/g; \
+            s/Unspecified/LTR\/CRM/g; \
+            s/4\-12\-1_CL569186.1/CL569186.1/; \
+            s/TR\-1_TR\-1/TR\-1/g;  \
+            next if /TE_00018291_LTR/; \
+            next if /TE_00013511/; \
+            next if /TE_00016670_LTR/; \
+            print $_' $i > $i.mod &
+done
