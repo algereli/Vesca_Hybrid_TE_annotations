@@ -1,0 +1,18 @@
+#!/bin/bash -login
+
+#SBATCH -J EDTA_Frag_2339
+#SBATCH --time=74:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem-per-cpu=30G
+#SBATCH -o re-EDTA_new_Frag_2339.out
+
+#-----------------------------------------------------------------------------------------
+
+GENOMES=/mnt/home/algereli/vesca_TEs_EDTA
+
+cd /mnt/home/algereli/vesca_TEs_EDTA/new_EDTA/
+
+perl /mnt/home/algereli/EDTA/EDTA_raw.pl --genome $GENOMES/1008_2339_NewNames.fasta --species others -t 10 --type tir
+
+perl /mnt/home/algereli/EDTA/EDTA.pl --genome $GENOMES/1008_2339_NewNames.fasta --species others -t 10 --cds $GENOMES/1008_2339_CDS_NewNames.fasta --anno 1 --sensitive 1
