@@ -12,6 +12,7 @@
 module load GCCcore/11.1.0
 module load Perl/5.32.1
 
+# filter out single copy annotations 
 for i in `cat list.cds|awk '{print $1}'`; do
     perl /mnt/home/algereli/EDTA/util/output_by_list.pl \
       1 \
@@ -25,7 +26,7 @@ for i in `cat list.cds|awk '{print $1}'`; do
      awk '{print $2}') -FA > $i.mod.EDTA.TElib.novel.fa.real &
 done
 
-
+# get classification info and convert #unknown to #DNA/Helitron
 for j in *mod.EDTA.TElib.novel.fa; do 
     for i in `cat $j.real`; do 
         grep $i $j; 
@@ -33,13 +34,14 @@ for j in *mod.EDTA.TElib.novel.fa; do
     perl -nle 's/#unknown/#DNA\/Helitron/; print $_' > $j.real.ori & 
 done
 
-
+#aggregate all vesca TE libraries
 i=0
 for j in *real.ori; do
   i=$(($i+5000));
   perl /mnt/home/algereli/EDTA/util/rename_TE.pl $j $i;
 done > FV.EDTA.TElib.novel.fa.raw
 
+#rename IDs
 perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TElib.novel.fa.raw > FV.EDTA.TElib.novel.fa.raw2
 mv FV.EDTA.TElib.novel.fa.raw2 FV.EDTA.TElib.novel.fa.raw
 
