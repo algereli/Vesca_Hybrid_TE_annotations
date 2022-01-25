@@ -23,4 +23,3 @@ nohup perl /mnt/home/algereli/EDTA/util/cleanup_nested.pl \
 
 perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TElib.novel.fa.raw.cln > FV.EDTA.TElib.novel.fa
 
-cat /mnt/home/algereli/vesca_TEs_EDTA/H4.TE.lib.fasta FV.EDTA.TElib.novel.fa > F_vesca.TElib2.fa
