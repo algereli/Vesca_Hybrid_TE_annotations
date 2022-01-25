@@ -15,4 +15,4 @@ cd /mnt/home/algereli/vesca_TEs_EDTA/new_EDTA/
 
 perl /mnt/home/algereli/EDTA/EDTA_raw.pl --genome $GENOMES/1008_2339_NewNames.fasta --species others -t 10 --type tir
 
-perl /mnt/home/algereli/EDTA/EDTA.pl --genome $GENOMES/1008_2339_NewNames.fasta --species others -t 10 --cds $GENOMES/1008_2339_CDS_NewNames.fasta --anno 1 --sensitive 1
+perl /mnt/home/algereli/EDTA/EDTA.pl --overwrite 0 --genome $GENOMES/1008_2339_NewNames.fasta --species others -t 10 --cds $GENOMES/1008_2339_CDS_NewNames.fasta --anno 1 --sensitive 1
