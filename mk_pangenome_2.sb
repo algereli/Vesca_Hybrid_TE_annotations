@@ -12,6 +12,9 @@
 module load GCC/10.2.0  OpenMPI/4.0.5
 module load BLAST+/2.11.0
 
+#working dir
+cd /mnt/home/algereli/vesca_TEs_EDTA/EDTA
+
 #remove redundant
 nohup perl /mnt/home/algereli/EDTA/util/cleanup_nested.pl \
 	-blastplus /opt/software/BLAST+/2.11.0-gompi-2020b/bin/ \
