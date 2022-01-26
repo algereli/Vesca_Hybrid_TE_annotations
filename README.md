@@ -1,6 +1,6 @@
 # Vesca_Hybrid_TE_annotations
 
-#user makes a list of genomes files and a list of cds files - both need to be in the same order \n
+#user makes a list of genomes files and a list of cds files - both need to be in the same order /n
 #user change genome dir and working directory in 1st_run.sb and 2nd_run.sb
 #check directories in mk_pangenome_1.sb
 #change EDTA directory for all scripts
