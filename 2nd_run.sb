@@ -17,11 +17,12 @@ genomes=$(sed -n ${SLURM_ARRAY_TASK_ID}p $all_genomes)
 
 cds=$(sed -n ${SLURM_ARRAY_TASK_ID}p $all_cds)
 
+lib = /mnt/home/algereli/vesca_TEs_EDTA/#add lib name here
 #directory with genomes and CDS files
 GENOMES_dir=/mnt/home/algereli/vesca_TEs_EDTA
 
 #working directory
-cd /mnt/home/algereli/vesca_TEs_EDTA/new_EDTA/
+cd /mnt/home/algereli/vesca_TEs_EDTA/EDTA/
 
 #run EDTA with new pangenome
 perl /mnt/home/algereli/EDTA/EDTA.pl --genome $GENOMES_dir/$genome --species others -t 10 --cds $GENOMES_dir/$cds --curatedlib $GENOMES/EDTA/F_vesca.TElib2.fa --anno 1 --sensitive 1
