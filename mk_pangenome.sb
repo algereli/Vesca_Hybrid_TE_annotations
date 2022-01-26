@@ -1,11 +1,11 @@
 #!/bin/bash -login
 
-##SBATCH -J EDTA_Frag_562
-##SBATCH --time=3:59:59
-##SBATCH --ntasks=1
-##SBATCH --cpus-per-task=10
-##SBATCH --mem-per-cpu=30G
-##SBATCH -o EDTA_filter_Frag.out
+#SBATCH -J EDTA_Frag_562
+#SBATCH --time=1:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=10
+#SBATCH --mem-per-cpu=30G
+#SBATCH -o EDTA_filter_Frag.out
 
 #-------------------------------------------------
 
@@ -16,7 +16,7 @@ module load Perl/5.32.1
 cd /mnt/home/algereli/vesca_TEs_EDTA/EDTA
 
 # filter out single copy annotations. cds.list is a list of all the genome files. 
-for i in `cat genomes.list|awk '{print $1}'`; do
+for i in `cat genome.list|awk '{print $1}'`; do
     perl /mnt/home/algereli/EDTA/util/output_by_list.pl \
       1 \
      <(perl -nle 's/#.*//; print $_' /mnt/home/algereli/vesca_TEs_EDTA/EDTA/$i.mod.EDTA.TElib.novel.fa) \
@@ -26,7 +26,7 @@ for i in `cat genomes.list|awk '{print $1}'`; do
      sort| \
      uniq -c | \
      perl -nle 'my ($count, $id) = (split); if ($id=~/LTR/){next if $count<=4} else {next if $count ==1} print $_' | \
-     awk '{print $2}') -FA > $i.mod.EDTA.TElib.novel.fa.real &
+     awk '{print $2}') -FA > $i.mod.EDTA.TElib.novel.fa.real 
 done
 
 # get classification info and convert #unknown to #DNA/Helitron
@@ -34,7 +34,7 @@ for j in *mod.EDTA.TElib.novel.fa; do
     for i in `cat $j.real`; do 
         grep $i $j; 
     done| \
-    perl -nle 's/#unknown/#DNA\/Helitron/; print $_' > $j.real.ori & 
+    perl -nle 's/#unknown/#DNA\/Helitron/; print $_' > $j.real.ori  
 done
 
 #aggregate all vesca TE libraries
@@ -47,4 +47,27 @@ done > FV.EDTA.TElib.novel.fa.raw
 #rename IDs
 perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TElib.novel.fa.raw > FV.EDTA.TElib.novel.fa.raw2
 mv FV.EDTA.TElib.novel.fa.raw2 FV.EDTA.TElib.novel.fa.raw
+
+#-----------------------------------------------------
+
+module purge
+module load GCC/10.2.0  OpenMPI/4.0.5
+module load BLAST+/2.11.0
+
+#working dir
+cd /mnt/home/algereli/vesca_TEs_EDTA/EDTA
+
+#remove redundant
+nohup perl /mnt/home/algereli/EDTA/util/cleanup_nested.pl \
+	-blastplus /opt/software/BLAST+/2.11.0-gompi-2020b/bin/ \
+    -in FV.EDTA.TElib.novel.fa.raw \
+    -cov 0.95 \
+    -minlen 80 \
+    -miniden 80 \
+    -t 36 
+    
+#rename TEs
+perl /mnt/home/algereli/EDTA/util/rename_TE.pl FV.EDTA.TElib.novel.fa.raw.cln > FV.EDTA.TElib.novel.fa
+
+
 
