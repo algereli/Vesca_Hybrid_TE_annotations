@@ -12,6 +12,9 @@
 module load GCCcore/11.1.0
 module load Perl/5.32.1
 
+#working dir
+cd /mnt/home/algereli/vesca_TEs_EDTA/EDTA
+
 # filter out single copy annotations. cds.list is a list of all the genome files. 
 for i in `cat genomes.list|awk '{print $1}'`; do
     perl /mnt/home/algereli/EDTA/util/output_by_list.pl \
