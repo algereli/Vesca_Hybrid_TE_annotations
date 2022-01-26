@@ -10,7 +10,7 @@
 
 Order:
 
-#first pass of EDTA. We did NOT include any previously made TE file because it resulted in low type 2 TEs after the 2nd run
+#first pass of EDTA. We did NOT include any previously made TE file because it resulted in low DNA TEs after the 2nd run
 1st_run.sb
 
 #remove single-copy annotations; aggregate all vesca TE libraries
