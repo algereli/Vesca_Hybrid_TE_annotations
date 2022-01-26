@@ -8,6 +8,8 @@
 #SBATCH -o re-EDTA_new_Frag_2339.out
 
 #-----------------------------------------------------------------------------------------
+module load Conda/3
+conda activate EDTA
 
 GENOMES=/mnt/home/algereli/vesca_TEs_EDTA
 
