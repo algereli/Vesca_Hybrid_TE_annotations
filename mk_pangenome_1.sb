@@ -13,12 +13,12 @@ module load GCCcore/11.1.0
 module load Perl/5.32.1
 
 # filter out single copy annotations. cds.list is a list of all the genome files. 
-for i in `cat list.cds|awk '{print $1}'`; do
+for i in `cat genomes.list|awk '{print $1}'`; do
     perl /mnt/home/algereli/EDTA/util/output_by_list.pl \
       1 \
-     <(perl -nle 's/#.*//; print $_' /mnt/scratch/algereli/EDTA4/$i.mod.EDTA.TElib.novel.fa) \
+     <(perl -nle 's/#.*//; print $_' /mnt/home/algereli/vesca_TEs_EDTA/EDTA/$i.mod.EDTA.TElib.novel.fa) \
      1 \
-     <(perl /mnt/home/algereli/EDTA/util/find_flTE.pl /mnt/scratch/algereli/EDTA4/$i.mod.EDTA.anno/$i.mod.out | \
+     <(perl /mnt/home/algereli/EDTA/util/find_flTE.pl /mnt/home/algereli/vesca_TEs_EDTA/EDTA/$i.mod.EDTA.anno/$i.mod.out | \
      awk '{print $10}'| \
      sort| \
      uniq -c | \
